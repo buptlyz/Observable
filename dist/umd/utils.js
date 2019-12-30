@@ -45,7 +45,7 @@
     }
     exports.cleanupSubscription = cleanupSubscription;
     function cleanupFromSubscription(subscription) {
-        return _ => { subscription.unsubscribe(); };
+        return () => { subscription.unsubscribe(); };
     }
     exports.cleanupFromSubscription = cleanupFromSubscription;
     function closeSubscription(subscription) {
@@ -56,4 +56,3 @@
     }
     exports.closeSubscription = closeSubscription;
 });
-//# sourceMappingURL=utils.js.map

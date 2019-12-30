@@ -1,3 +1,6 @@
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
         var v = factory(require, exports);
@@ -9,7 +12,7 @@
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    const SubscriptionObserver_1 = require("./SubscriptionObserver");
+    const SubscriptionObserver_1 = __importDefault(require("./SubscriptionObserver"));
     const utils_1 = require("./utils");
     class Subscription {
         constructor(observer, subscriber) {
@@ -54,4 +57,3 @@
     }
     exports.default = Subscription;
 });
-//# sourceMappingURL=Subscription.js.map

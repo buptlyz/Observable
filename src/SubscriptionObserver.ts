@@ -15,7 +15,7 @@ export default class SubscriptionObserver {
 
         if (subscriptionClosed(subscription)) return
 
-        const observer = subscription._observer
+        const observer = subscription._observer!
 
         try {
             const next = getMethod(observer, 'next')
@@ -37,7 +37,7 @@ export default class SubscriptionObserver {
         // If the stream is closed, then return undefined
         if (subscriptionClosed(subscription)) return
 
-        const observer = subscription._observer
+        const observer = subscription._observer!
         subscription._observer = undefined
 
         try {
@@ -61,7 +61,7 @@ export default class SubscriptionObserver {
         // If the stream is closed, then return undefined
         if (subscriptionClosed(subscription)) return
 
-        const observer = subscription._observer
+        const observer = subscription._observer!
         subscription._observer = undefined
 
         try {

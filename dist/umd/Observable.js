@@ -1,3 +1,6 @@
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
         var v = factory(require, exports);
@@ -9,7 +12,7 @@
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    const Subscription_1 = require("./Subscription");
+    const Subscription_1 = __importDefault(require("./Subscription"));
     const utils_1 = require("./utils");
     utils_1.polyfillSymbol('observable');
     class Observable {
@@ -63,7 +66,6 @@
                         return;
                 }
                 observer.complete();
-                return () => void (0);
             });
         }
         static of(...items) {
@@ -75,10 +77,8 @@
                         return;
                 }
                 observer.complete();
-                return () => void (0);
             });
         }
     }
     exports.default = Observable;
 });
-//# sourceMappingURL=Observable.js.map

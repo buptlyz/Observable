@@ -1,12 +1,12 @@
 import Subscription from './Subscription'
 
-export function polyfillSymbol(name) {
+export function polyfillSymbol(name: string) {
     if (!Symbol[name]) {
         Object.defineProperty(Symbol, name, { value: Symbol(name) })
     }
 }
 
-export function getMethod<T, K extends keyof T>(obj: T, key: K): T[K] {
+export function getMethod<T, K extends keyof T>(obj: T, key: K): T[K] | undefined {
     const value = obj[key]
     
     if (value === undefined || value === null) return undefined
@@ -17,11 +17,11 @@ export function getMethod<T, K extends keyof T>(obj: T, key: K): T[K] {
     return value
 }
 
-export function subscriptionClosed(subscription: Subscription) {
+export function subscriptionClosed(subscription: Subscription): Boolean {
     return subscription._observer === undefined
 }
 
-export function cleanupSubscription(subscription: Subscription) {
+export function cleanupSubscription(subscription: Subscription): void {
     const cleanup = subscription._cleanup
 
     if (!cleanup) return
@@ -39,11 +39,11 @@ export function cleanupSubscription(subscription: Subscription) {
     }
 }
 
-export function cleanupFromSubscription(subscription: Subscription) {
-    return _=> {subscription.unsubscribe()}
+export function cleanupFromSubscription(subscription: Subscription): () => void {
+    return () => {subscription.unsubscribe()}
 }
 
-export function closeSubscription(subscription: Subscription) {
+export function closeSubscription(subscription: Subscription): void {
     if (subscriptionClosed(subscription)) return
 
     subscription._observer = undefined

@@ -1,9 +1,9 @@
-import { Observer, SubscriberFunction } from './index'
+import { Observer, SubscriberFunction } from '../index'
 import SubscriptionObserver from './SubscriptionObserver'
 import { getMethod, subscriptionClosed, cleanupSubscription, closeSubscription, cleanupFromSubscription } from './utils'
 
 export default class Subscription {
-    _observer: Observer
+    _observer?: Observer
     _cleanup?: () => void | Subscription
 
     constructor(observer: Observer, subscriber: SubscriberFunction) {
@@ -29,8 +29,8 @@ export default class Subscription {
 
             // The return value must be undefined, null, a subscription object, or a function
             if (cleanup !== undefined && cleanup !== null) {
-                if (typeof cleanup.unsubscribe === 'function')
-                    cleanup = cleanupFromSubscription(cleanup)
+                if (typeof (cleanup as Subscription).unsubscribe === 'function')
+                    cleanup = cleanupFromSubscription(cleanup as Subscription)
                 else if (typeof cleanup !== 'function')
                     throw new TypeError(`${cleanup} is not a function`)
                 

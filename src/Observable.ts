@@ -1,4 +1,4 @@
-import { Observer, SubscriberFunction } from './index'
+import { Observer, SubscriberFunction } from '../index'
 import Subscription from './Subscription'
 import { polyfillSymbol, getMethod } from './utils'
 
@@ -76,8 +76,6 @@ export default class Observable {
             }
 
             observer.complete()
-
-            return () => void(0)
         })
     }
 
@@ -92,8 +90,6 @@ export default class Observable {
             }
 
             observer.complete()
-
-            return () => void(0)
         })
     }
 }

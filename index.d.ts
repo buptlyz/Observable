@@ -1,12 +1,13 @@
-export type SubscriberFunction = (observer: SubscriptionObserver) => (() => void) | Subscription
+export type SubscriberFunction = (observer: Observer) => (() => void) | Subscription | void
 
 declare global {
     interface SymbolConstructor {
         observable: symbol
+        [key: string]: any
     }
 }
 
-export class Observable {
+export default class Observable {
 
     constructor(subscriber : SubscriberFunction)
 
@@ -22,14 +23,16 @@ export class Observable {
     [Symbol.observable]() : Observable
 
     // Converts items to an Observable
-    static of(...items) : Observable
+    static of(...items: any[]) : Observable
 
     // Converts an observable or iterable to an Observable
-    static from(observable) : Observable
+    static from(observable: Observable) : Observable
 
 }
 
 export class Subscription {
+
+    constructor(observer: Observer, subscriber : SubscriberFunction)
 
     // Cancels the subscription
     unsubscribe() : void
@@ -41,13 +44,13 @@ export class Subscription {
 export class Observer {
 
     // Receives the subscription object when `subscribe` is called
-    start(subscription : Subscription): void
+    start?(subscription : Subscription): void
 
     // Receives the next value in the sequence
-    next(value): void
+    next(value: any): void
 
     // Receives the sequence error
-    error(errorValue): void
+    error(errorValue: any): void
 
     // Receives a completion notification
     complete(): void
@@ -58,13 +61,13 @@ export class Observer {
 export class SubscriptionObserver {
 
     // Sends the next value in the sequence
-    next(value)
+    next(value: any): void
 
     // Sends the sequence error
-    error(errorValue)
+    error(errorValue: any): void
 
     // Sends the completion notification
-    complete()
+    complete(): void
 
     // A boolean value indicating whether the subscription is closed
     get closed() : Boolean

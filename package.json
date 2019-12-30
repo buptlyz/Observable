@@ -1,20 +1,22 @@
 {
-  "name": "observable",
-  "version": "0.0.1",
+  "name": "lobservable",
+  "version": "0.0.1-alpha1",
   "description": "observable",
-  "main": "dist/commonjs/Observable.js",
-  "module": "dist/es/Observable.js",
+  "main": "dist/common/Observable.js",
+  "module": "dist/esm/Observable.js",
   "files": [
     "dist",
     "index.d.ts"
   ],
-  "types": "index.d.ts",
+  "types": "./index.d.ts",
   "scripts": {
-    "build": "rm -rf dist && npm run build:es && npm run build:common && npm run build:umd",
-    "build:common": "tsc --build tsconfig.common.json",
-    "build:es": "tsc --build tsconfig.es.json",
-    "build:umd": "tsc --build tsconfig.umd.json",
-    "test": "node ./Observable.test.js"
+    "dev": "tsc -w",
+    "build": "rm -rf dist && npm run build:common && npm run build:esm && npm run build:umd",
+    "build:common": "tsc --module commonjs --outDir dist/common",
+    "build:esm": "tsc --module ESNext --outDir dist/esm",
+    "build:umd": "tsc --module UMD --outDir dist/umd",
+    "test": "node ./Observable.test.js",
+    "pub": "npm run build && npm publish"
   },
   "keywords": [
     "observable"
