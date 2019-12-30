@@ -11,7 +11,7 @@ export default class Subscription {
 
         // If the observer has a start method, call it with the subscription object
         try {
-            const start = getMethod<Observer, keyof Observer>(observer, 'start')
+            const start = getMethod(observer, 'start')
 
             if (start) start.call(observer, this)
         } catch (err) {

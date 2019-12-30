@@ -1,5 +1,11 @@
 export type SubscriberFunction = (observer: SubscriptionObserver) => (() => void) | Subscription
 
+declare global {
+    interface SymbolConstructor {
+        observable: symbol
+    }
+}
+
 export class Observable {
 
     constructor(subscriber : SubscriberFunction)
@@ -12,7 +18,6 @@ export class Observable {
               onError? : Function,
               onComplete? : Function) : Subscription
 
-    // TODO fix lint
     // Returns itself
     [Symbol.observable]() : Observable
 

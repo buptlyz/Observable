@@ -17,8 +17,7 @@ export default class Observable {
         this._subscriber = subscriber
     }
 
-    // TODO replace type any
-    [(Symbol as any).observable]() {return this}
+    [Symbol.observable]() {return this}
 
     subscribe(observer: Observer): Subscription
     subscribe(next: Function, error: Function, complete: Function, ): Subscription
@@ -47,8 +46,7 @@ export default class Observable {
             throw new TypeError(`${x} is not an object`)
         }
 
-        // TODO remove type any
-        let method = getMethod(x as any, (Symbol as any).observable)
+        let method = getMethod(x as any, Symbol.observable)
 
         if (method) {
             

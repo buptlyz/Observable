@@ -2,13 +2,18 @@
   "name": "observable",
   "version": "0.0.1",
   "description": "observable",
-  "main": "lib/Observable.js",
+  "main": "dist/commonjs/Observable.js",
+  "module": "dist/es/Observable.js",
   "files": [
-    "lib"
+    "dist",
+    "index.d.ts"
   ],
   "types": "index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist && npm run build:es && npm run build:common && npm run build:umd",
+    "build:common": "tsc --build tsconfig.common.json",
+    "build:es": "tsc --build tsconfig.es.json",
+    "build:umd": "tsc --build tsconfig.umd.json",
     "test": "node ./Observable.test.js"
   },
   "keywords": [
@@ -17,7 +22,7 @@
   "author": "liyizhe",
   "license": "ISC",
   "directories": {
-    "lib": "lib"
+    "dist": "dist"
   },
   "dependencies": {},
   "devDependencies": {
