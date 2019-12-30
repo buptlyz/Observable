@@ -9,7 +9,7 @@
   "types": "index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "node ./__test__/Observable.test.js"
+    "test": "node ./Observable.test.js"
   },
   "keywords": [
     "observable"
@@ -20,7 +20,9 @@
     "lib": "lib"
   },
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "es-observable-tests": "^0.3.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/buptlyz/Observable.git"

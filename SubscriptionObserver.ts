@@ -1,7 +1,7 @@
-import { Subscription, SubscriptionObserver as ISubscriptionObserver } from './index'
+import Subscription from './Subscription'
 import { getMethod, subscriptionClosed, cleanupSubscription } from './utils'
 
-export default class SubscriptionObserver implements ISubscriptionObserver {
+export default class SubscriptionObserver {
     protected _subscription: Subscription
 
     constructor(subscription: Subscription) {
@@ -55,7 +55,7 @@ export default class SubscriptionObserver implements ISubscriptionObserver {
         return
     }
 
-    complete(value: any) {
+    complete() {
         const subscription = this._subscription
 
         // If the stream is closed, then return undefined
@@ -69,7 +69,7 @@ export default class SubscriptionObserver implements ISubscriptionObserver {
 
             // If the sink does not support "complete", then return undefined
             if (complete) {
-                complete.call(observer, value)
+                complete.call(observer)
             }
         } catch (err) {
             // HostReportErrors

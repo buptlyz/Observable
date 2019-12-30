@@ -1,18 +1,13 @@
-import { Observer } from './index'
+import { Observer, SubscriberFunction } from './index'
 import Subscription from './Subscription'
-
-function polyfillSymbol(name) {
-    if (!Symbol[name]) {
-        Object.defineProperty(Symbol, name, { value: Symbol(name) })
-    }
-}
+import { polyfillSymbol, getMethod } from './utils'
 
 polyfillSymbol('observable')
 
 export default class Observable {
-    protected _subscriber: Function
+    protected _subscriber: SubscriberFunction
 
-    constructor(subscriber: Function) {
+    constructor(subscriber: SubscriberFunction) {
         if (!(this instanceof Observable)) {
             throw new TypeError('Observable is not intended to be called as a function')
         }
@@ -25,7 +20,9 @@ export default class Observable {
     // TODO replace type any
     [(Symbol as any).observable]() {return this}
 
-    subscribe(observer: Observer | Function, ...args: any[]) {
+    subscribe(observer: Observer): Subscription
+    subscribe(next: Function, error: Function, complete: Function, ): Subscription
+    subscribe(observer: any, ...args: any[]) {
         if (typeof observer === 'function') {
             // next error complete
             observer = {
@@ -41,9 +38,64 @@ export default class Observable {
         return new Subscription(observer, this._subscriber)
     }
 
-    // TODO
-    static from() {}
+    static from(x: Observable): Observable
+    static from(x: Iterable<any>): Observable
+    static from(x: any) {
+        const C = typeof this === 'function' ? this : Observable
 
-    // TODO
-    static of() {}
+        if (typeof x !== 'object') {
+            throw new TypeError(`${x} is not an object`)
+        }
+
+        // TODO remove type any
+        let method = getMethod(x as any, (Symbol as any).observable)
+
+        if (method) {
+            
+            // param x is an Observable
+            const observable = method.call(x)
+
+            if (Object(observable) !== observable)
+                throw new TypeError(`${observable} is not an object`)
+
+            if (observable.constructor === C)
+                return observable
+
+            return new C(observer => observable.subscribe(observer))
+        }
+
+        // param x is an iterable
+        method = getMethod(x, Symbol.iterator)
+
+        if (!method)
+            throw new TypeError(`${x} is not observable`)
+
+        return new C((observer: Observer) => {
+            for (const item of method.call(x)) {
+                observer.next(item)
+
+                if (observer.closed) return
+            }
+
+            observer.complete()
+
+            return () => void(0)
+        })
+    }
+
+    static of(...items: any[]) {
+        const C = typeof this === 'function' ? this : Observable
+
+        return new C((observer: Observer) => {
+            for (const item of items) {
+                observer.next(item)
+
+                if (observer.closed) return
+            }
+
+            observer.complete()
+
+            return () => void(0)
+        })
+    }
 }

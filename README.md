@@ -3,5 +3,6 @@
 ## TODO
 
 * [ ] compile to esmodule and umd
-* [ ] add jest for testing
+* [x] add test
+* [ ] pass all test cases
 * [ ] add lint and prettier

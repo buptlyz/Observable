@@ -1,4 +1,10 @@
-import { Subscription } from './index'
+import Subscription from './Subscription'
+
+export function polyfillSymbol(name) {
+    if (!Symbol[name]) {
+        Object.defineProperty(Symbol, name, { value: Symbol(name) })
+    }
+}
 
 export function getMethod<T, K extends keyof T>(obj: T, key: K): T[K] {
     const value = obj[key]
@@ -21,7 +27,7 @@ export function cleanupSubscription(subscription: Subscription) {
     if (!cleanup) return
     
     if (typeof cleanup !== 'function') {
-        throw new TypeError('')
+        throw new TypeError(`${cleanup} is not a function`)
     }
     
     subscription._cleanup = undefined

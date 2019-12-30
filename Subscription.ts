@@ -1,12 +1,12 @@
-import { Observer, Subscription as ISubscription } from './index'
+import { Observer, SubscriberFunction } from './index'
 import SubscriptionObserver from './SubscriptionObserver'
 import { getMethod, subscriptionClosed, cleanupSubscription, closeSubscription, cleanupFromSubscription } from './utils'
 
-export default class Subscription implements ISubscription {
+export default class Subscription {
     _observer: Observer
-    _cleanup?: Function
+    _cleanup?: () => void | Subscription
 
-    constructor(observer: Observer, subscriber: Function) {
+    constructor(observer: Observer, subscriber: SubscriberFunction) {
         this._observer = observer
 
         // If the observer has a start method, call it with the subscription object
