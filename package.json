@@ -1,14 +1,14 @@
 {
-  "name": "lobservable",
+  "name": "observable",
   "version": "0.0.1-alpha1",
   "description": "observable",
-  "main": "dist/common/Observable.js",
+  "main": "dist/umd/Observable.js",
   "module": "dist/esm/Observable.js",
   "files": [
     "dist",
     "index.d.ts"
   ],
-  "types": "./index.d.ts",
+  "types": "index.d.ts",
   "scripts": {
     "dev": "tsc -w",
     "build": "rm -rf dist && npm run build:common && npm run build:esm && npm run build:umd",
