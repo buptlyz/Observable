@@ -1,6 +1,6 @@
 {
   "name": "observable",
-  "version": "0.0.1-alpha1",
+  "version": "0.0.1-alpha8",
   "description": "observable",
   "main": "dist/umd/Observable.js",
   "module": "dist/esm/Observable.js",
@@ -15,6 +15,7 @@
     "build:common": "tsc --module commonjs --outDir dist/common",
     "build:esm": "tsc --module ESNext --outDir dist/esm",
     "build:umd": "tsc --module UMD --outDir dist/umd",
+    "build:d": "tsc -d --emitDeclarationOnly --declarationDir types",
     "test": "node ./Observable.test.js",
     "pub": "npm run build && npm publish"
   },

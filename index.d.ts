@@ -1,4 +1,4 @@
-export type SubscriberFunction = (observer: Observer) => (() => void) | Subscription | void
+export type SubscriberFunction = (observer: SubscriptionObserver) => (() => void) | Subscription | void
 
 declare global {
     interface SymbolConstructor {
@@ -28,6 +28,11 @@ export default class Observable {
     // Converts an observable or iterable to an Observable
     static from(observable: Observable) : Observable
 
+    // operators
+    map(fn: Function) : Observable
+    merge(ob: Observable) : Observable
+    withLatestFrom(ob: Observable) : Observable
+    buffer(ob: Observable) : Observable
 }
 
 export class Subscription {
@@ -72,3 +77,5 @@ export class SubscriptionObserver {
     // A boolean value indicating whether the subscription is closed
     get closed() : Boolean
 }
+
+export declare function mergeAll(...args: Observable[]): Observable;
