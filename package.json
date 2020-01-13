@@ -1,6 +1,6 @@
 {
   "name": "observable",
-  "version": "0.0.1-alpha8",
+  "version": "0.0.1-alpha9",
   "description": "observable",
   "main": "dist/umd/Observable.js",
   "module": "dist/esm/Observable.js",
@@ -10,7 +10,7 @@
   ],
   "types": "index.d.ts",
   "scripts": {
-    "dev": "tsc -w",
+    "dev": "tsc -w --module ESNext --outDir dist/esm",
     "build": "rm -rf dist && npm run build:common && npm run build:esm && npm run build:umd",
     "build:common": "tsc --module commonjs --outDir dist/common",
     "build:esm": "tsc --module ESNext --outDir dist/esm",

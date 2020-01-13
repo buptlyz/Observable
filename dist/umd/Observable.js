@@ -15,7 +15,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const Subscription_1 = __importDefault(require("./Subscription"));
     const utils_1 = require("./utils");
     function checkObservable(ob) {
-        if (!(ob instanceof Observable)) {
+        if (!(ob instanceof Observable) && !ob[Symbol.observable]) {
             throw new TypeError(`${ob} is not a observable`);
         }
     }
@@ -97,46 +97,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 const sub = this.subscribe((val) => observer.next(fn(val)));
                 return () => {
                     unsubscribe(sub);
-                };
-            });
-        }
-        merge(ob) {
-            checkObservable(ob);
-            return new Observable(observer => {
-                const sub1 = this.subscribe(observer.next);
-                const sub2 = ob.subscribe(observer.next);
-                return () => {
-                    unsubscribe(sub1);
-                    unsubscribe(sub2);
-                };
-            });
-        }
-        withLatestFrom(ob) {
-            checkObservable(ob);
-            return new Observable(observer => {
-                let val2;
-                const sub1 = this.subscribe((val1) => {
-                    val2 && observer.next([val1, val2]);
-                });
-                const sub2 = ob.subscribe((val) => val2 = val);
-                return () => {
-                    unsubscribe(sub1);
-                    unsubscribe(sub2);
-                };
-            });
-        }
-        buffer(ob) {
-            checkObservable(ob);
-            return new Observable(observer => {
-                let buffer = [];
-                const sub1 = ob.subscribe(() => {
-                    observer.next([...buffer]);
-                    buffer.length = 0;
-                });
-                const sub2 = this.subscribe(buffer.push);
-                return () => {
-                    unsubscribe(sub1);
-                    unsubscribe(sub2);
                 };
             });
         }

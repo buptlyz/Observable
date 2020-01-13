@@ -30,9 +30,9 @@ export default class Observable {
 
     // operators
     map(fn: Function) : Observable
-    merge(ob: Observable) : Observable
-    withLatestFrom(ob: Observable) : Observable
-    buffer(ob: Observable) : Observable
+    // merge(ob: Observable) : Observable
+    // withLatestFrom(ob: Observable) : Observable
+    // buffer(ob: Observable) : Observable
 }
 
 export class Subscription {

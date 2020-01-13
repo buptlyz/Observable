@@ -3,7 +3,7 @@ import Subscription from './Subscription'
 import { polyfillSymbol, getMethod } from './utils'
 
 function checkObservable(ob: any) {
-    if (!(ob instanceof Observable)) {
+    if (!(ob instanceof Observable) && !ob[Symbol.observable]) {
         throw new TypeError(`${ob} is not a observable`)
     }
 }
@@ -118,48 +118,48 @@ export default class Observable {
         })
     }
 
-    merge(ob: Observable) {
-        checkObservable(ob)
-        return new Observable(observer => {
-            const sub1 = this.subscribe(observer.next)
-            const sub2 = ob.subscribe(observer.next)
-            return () => {
-                unsubscribe(sub1)
-                unsubscribe(sub2)
-            }
-        })
-    }
+    // merge(ob: Observable) {
+    //     checkObservable(ob)
+    //     return new Observable(observer => {
+    //         const sub1 = this.subscribe(observer.next)
+    //         const sub2 = ob.subscribe(observer.next)
+    //         return () => {
+    //             unsubscribe(sub1)
+    //             unsubscribe(sub2)
+    //         }
+    //     })
+    // }
 
-    withLatestFrom(ob: Observable) {
-        checkObservable(ob)
-        return new Observable(observer => {
-            let val2: any
-            const sub1 = this.subscribe((val1: any) => {
-                val2 && observer.next([val1, val2])
-            })
-            const sub2 = ob.subscribe((val: any) => val2 = val)
-            return () => {
-                unsubscribe(sub1)
-                unsubscribe(sub2)
-            }
-        })
-    }
+    // withLatestFrom(ob: Observable) {
+    //     checkObservable(ob)
+    //     return new Observable(observer => {
+    //         let val2: any
+    //         const sub1 = this.subscribe((val1: any) => {
+    //             val2 && observer.next([val1, val2])
+    //         })
+    //         const sub2 = ob.subscribe((val: any) => val2 = val)
+    //         return () => {
+    //             unsubscribe(sub1)
+    //             unsubscribe(sub2)
+    //         }
+    //     })
+    // }
 
-    buffer(ob: Observable) {
-        checkObservable(ob)
-        return new Observable(observer => {
-            let buffer: any[] = []
-            const sub1 = ob.subscribe(() => {
-                observer.next([...buffer])
-                buffer.length = 0
-            })
-            const sub2 = this.subscribe(buffer.push)
-            return () => {
-                unsubscribe(sub1)
-                unsubscribe(sub2)
-            }
-        })
-    }
+    // buffer(ob: Observable) {
+    //     checkObservable(ob)
+    //     return new Observable(observer => {
+    //         let buffer: any[] = []
+    //         const sub1 = ob.subscribe(() => {
+    //             observer.next([...buffer])
+    //             buffer.length = 0
+    //         })
+    //         const sub2 = this.subscribe(buffer.push)
+    //         return () => {
+    //             unsubscribe(sub1)
+    //             unsubscribe(sub2)
+    //         }
+    //     })
+    // }
 }
 
 const empty = new Observable(observer => {
